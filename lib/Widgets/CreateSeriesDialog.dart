@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:index_generator/States/MainState.dart';
 import 'package:index_generator/model/Series.dart';
-import 'package:provider/provider.dart';
 
 class CreateSeriesDialog extends StatefulWidget {
   const CreateSeriesDialog({Key key}) : super(key: key);
@@ -13,7 +11,7 @@ class CreateSeriesDialog extends StatefulWidget {
 
 class _CreateSeriesDialogState extends State<CreateSeriesDialog> {
   String _name = "";
-  int _numOfDigits = 0;
+  String _model = "";
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +38,11 @@ class _CreateSeriesDialogState extends State<CreateSeriesDialog> {
               ),
               TextField(
                 decoration: InputDecoration(
-                  labelText: "Number of digits:",
+                  labelText: "Index model:",
                   labelStyle: TextStyle(color: Colors.white),
                 ),
-                keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  int myNum = int.tryParse(value);
-                  _numOfDigits = myNum == null ? 0 : myNum;
+                  _model = value;
                 },
               ),
             ],
@@ -63,8 +59,8 @@ class _CreateSeriesDialogState extends State<CreateSeriesDialog> {
         FlatButton(
           child: Text('Add'),
           onPressed: () {
-            if (_name != "" && _numOfDigits != 0) {
-              Series newSeries = Series(_name, _numOfDigits);
+            if (_name != "" && _model != "") {
+              Series newSeries = Series(_name, _model);
               Hive.box('serieses').add(newSeries);
               Navigator.of(context).pop();
             }

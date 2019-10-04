@@ -6,10 +6,10 @@ part 'Series.g.dart';
 class Series {
   @HiveField(0)
   String name;
-  @HiveField(1)
-  int digitsNumber;
   @HiveField(2)
   List<String> used;
+  @HiveField(3)
+  String model;
 
-  Series(this.name, this.digitsNumber, {this.used = const []});
+  Series(this.name, this.model, {this.used = const []});
 }

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:index_generator/screens/GenerateScreen.dart';
 import '../model/Series.dart';
-import 'package:provider/provider.dart';
-import '../States/MainState.dart';
 
 class SeriesListItem extends StatelessWidget {
   const SeriesListItem(this.series, this.id, {Key key}) : super(key: key);
@@ -39,7 +37,7 @@ class SeriesListItem extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 24.0),
                     ),
                     Text(
-                      "Number of digits: ${series.digitsNumber.toString()}",
+                      "Index model: ${series.model.toString()}",
                       style: TextStyle(color: Colors.grey, fontSize: 16.0),
                     )
                   ],

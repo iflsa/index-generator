@@ -1,12 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:index_generator/model/Series.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
-import 'States/MainState.dart';
-import 'screens/GenerateScreen.dart';
 import 'screens/MainScreen.dart';
 
 void main() async {

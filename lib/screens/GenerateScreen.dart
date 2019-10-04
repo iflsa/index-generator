@@ -1,14 +1,8 @@
-import 'dart:io';
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:index_generator/model/Series.dart';
 import 'dart:math';
-
-import 'package:path_provider/path_provider.dart';
 
 class GenerateScreen extends StatefulWidget {
   const GenerateScreen(this.series, this.id, {Key key}) : super(key: key);
@@ -29,10 +23,31 @@ class _GenerateScreenState extends State<GenerateScreen> {
 
   String randOne() {
     String tmpStr = "";
-    for (int i = 0; i < widget.series.digitsNumber; i++)
-      tmpStr += Random().nextInt(10).toString();
+    String letters = "qwertyuiopasdfghjklzxcvbnm";
+    bool skip = false;
+    print(widget.series.model.split(""));
+
+    for (var i in widget.series.model.split("")) {
+      if (skip) {
+        tmpStr += i;
+        skip = false;
+      } else if (i == '#') {
+        tmpStr += Random().nextInt(10).toString();
+      } else if (i == '*') {
+        int r = Random().nextInt(letters.length);
+        tmpStr += letters[r];
+      } else if (i == '^') {
+        int r = Random().nextInt(letters.length);
+        tmpStr += letters.toUpperCase()[r];
+      } else if (i == '\\') {
+        skip = true;
+      } else {
+        tmpStr += i;
+      }
+    }
+
     if (_outputs.contains(tmpStr)) {
-      if (_outputs.length == pow(10, widget.series.digitsNumber)) {
+      if (_outputs.length == pow(10, widget.series.model.length)) {
         _outputs = [];
         _showReloadDialog();
       } else {
@@ -61,14 +76,14 @@ class _GenerateScreenState extends State<GenerateScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  "How many to random?",
+                  "Reloading randomizer",
                   style: TextStyle(
                     color: Colors.tealAccent,
                     fontSize: 25.0,
                   ),
                 ),
                 SizedBox(height: 25.0),
-                Text("All passible numbers has been randomized.")
+                Text("All passible options has been randomized.")
               ],
             ),
           ),
@@ -99,7 +114,7 @@ class _GenerateScreenState extends State<GenerateScreen> {
   void dispose() {
     sBox.putAt(
       widget.id,
-      Series(widget.series.name, widget.series.digitsNumber, used: _outputs),
+      Series(widget.series.name, widget.series.model, used: _outputs),
     );
     super.dispose();
   }
@@ -120,7 +135,7 @@ class _GenerateScreenState extends State<GenerateScreen> {
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
                     child: AutoSizeText(
-                      '${i}',
+                      '$i',
                       style: TextStyle(
                         fontSize: 50.0,
                         fontFamily: 'Amatic SC',

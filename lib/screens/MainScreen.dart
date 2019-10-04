@@ -3,8 +3,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:index_generator/Widgets/NoSerieses.dart';
 import 'package:index_generator/model/Series.dart';
-import 'package:provider/provider.dart';
-import '../States/MainState.dart';
 import '../Widgets/SeriesListItem.dart';
 import '../Widgets/CreateSeriesDialog.dart';
 
@@ -34,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
               return NoSerieses();
             }
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),

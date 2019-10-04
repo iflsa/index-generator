@@ -15,7 +15,7 @@ class SeriesAdapter extends TypeAdapter<Series> {
     };
     return Series(
       fields[0] as String,
-      fields[1] as int,
+      fields[3] as String,
       used: (fields[2] as List)?.cast<String>(),
     );
   }
@@ -26,9 +26,9 @@ class SeriesAdapter extends TypeAdapter<Series> {
       ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
-      ..writeByte(1)
-      ..write(obj.digitsNumber)
       ..writeByte(2)
-      ..write(obj.used);
+      ..write(obj.used)
+      ..writeByte(3)
+      ..write(obj.model);
   }
 }
