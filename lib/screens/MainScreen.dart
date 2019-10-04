@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:index_generator/Widgets/NoSerieses.dart';
 import 'package:index_generator/model/Series.dart';
 import 'package:provider/provider.dart';
 import '../States/MainState.dart';
@@ -30,24 +31,7 @@ class _MainScreenState extends State<MainScreen> {
             } else if (snapshot.hasData) {
               return _buildListView();
             } else {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.list,
-                      size: 100.0,
-                      color: Colors.white60,
-                    ),
-                    SizedBox(height: 75.0),
-                    Text(
-                      "Your serieses will show up here.",
-                      style: TextStyle(fontSize: 20.0, color: Colors.white60),
-                    ),
-                    SizedBox(height: 50.0),
-                  ],
-                ),
-              );
+              return NoSerieses();
             }
           } else {
             return CircularProgressIndicator();
@@ -69,13 +53,19 @@ class _MainScreenState extends State<MainScreen> {
   _buildListView() {
     return WatchBoxBuilder(
       box: Hive.box('serieses'),
-      builder: (ctx, sBox) => ListView.builder(
-        itemCount: sBox.length,
-        itemBuilder: (ctx, id) {
-          final se = sBox.getAt(id) as Series;
-          return SeriesListItem(se, id);
-        },
-      ),
+      builder: (ctx, sBox) {
+        if (sBox.length > 0) {
+          return ListView.builder(
+            itemCount: sBox.length,
+            itemBuilder: (ctx, id) {
+              final se = sBox.getAt(id) as Series;
+              return SeriesListItem(se, id);
+            },
+          );
+        } else {
+          return NoSerieses();
+        }
+      },
     );
   }
 }
