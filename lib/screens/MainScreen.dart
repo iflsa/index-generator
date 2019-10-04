@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:index_generator/Widgets/CreateSeriesesDialog.dart';
 import 'package:index_generator/Widgets/NoSerieses.dart';
 import 'package:index_generator/model/Series.dart';
 import '../Widgets/SeriesListItem.dart';
@@ -36,14 +37,31 @@ class _MainScreenState extends State<MainScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.add),
-        label: Text("Add"),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => CreateSeriesDialog());
-        },
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton.extended(
+            heroTag: null,
+            icon: Icon(Icons.add),
+            label: Text("Add one"),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) => CreateSeriesDialog());
+            },
+          ),
+          SizedBox(height: 10.0),
+          FloatingActionButton.extended(
+            heroTag: null,
+            icon: Icon(Icons.add),
+            label: Text("Add more"),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) => CreateSeriesesDialog());
+            },
+          )
+        ],
       ),
     );
   }

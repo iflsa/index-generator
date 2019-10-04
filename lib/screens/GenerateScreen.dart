@@ -48,7 +48,7 @@ class _GenerateScreenState extends State<GenerateScreen> {
     }
 
     if (_outputs.contains(tmpStr)) {
-      if (_outputs.length == pow(10, widget.series.model.length)) {
+      if (_outputs.length == widget.series.model.length) {
         _outputs = [];
         _showReloadDialog();
       } else {
