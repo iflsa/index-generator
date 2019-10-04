@@ -1,4 +1,0 @@
-#Mon Sep 30 20:54:11 CEST 2019
-base.0=/home/milo/Coding/index_generator/build/app/intermediates/transforms/dexMerger/release/0
-path.0=classes.dex
-renamed.0=classes.dex
