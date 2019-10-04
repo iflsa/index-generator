@@ -18,6 +18,7 @@ class _GenerateScreenState extends State<GenerateScreen> {
   List<String> _outputs = [];
   List<String> _outputsToShow = [];
   int _numOfRands = 0;
+  bool _afterRandom = false;
 
   var sBox;
 
@@ -58,6 +59,11 @@ class _GenerateScreenState extends State<GenerateScreen> {
   }
 
   void rand(int numsNum) {
+    if (!_afterRandom) {
+      setState(() {
+        _afterRandom = true;
+      });
+    }
     List<String> tmpList = [];
     for (int i = 0; i < numsNum; i++) tmpList.add(randOne());
     setState(() {
@@ -123,33 +129,47 @@ class _GenerateScreenState extends State<GenerateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("${widget.series.name}"), centerTitle: true),
-      body: Container(
-          child: Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 125.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              for (var i in _outputsToShow)
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: AutoSizeText(
-                      '$i',
-                      style: TextStyle(
-                        fontSize: 50.0,
-                        fontFamily: 'Amatic SC',
-                        fontWeight: FontWeight.w700,
-                      ),
-                      maxLines: 4,
-                      textAlign: TextAlign.center,
-                    ),
+      body: _afterRandom
+          ? Container(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 125.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (var i in _outputsToShow)
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: AutoSizeText(
+                              '$i',
+                              style: TextStyle(
+                                fontSize: 50.0,
+                                fontFamily: 'Amatic SC',
+                                fontWeight: FontWeight.w700,
+                              ),
+                              maxLines: 4,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
-            ],
-          ),
-        ),
-      )),
+              ),
+            )
+          : Center(
+              child: AutoSizeText(
+                'Ready\nto\nrandom',
+                style: TextStyle(
+                  fontSize: 50.0,
+                  fontFamily: 'Amatic SC',
+                  fontWeight: FontWeight.w700,
+                ),
+                maxLines: 4,
+                textAlign: TextAlign.center,
+              ),
+            ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
